@@ -1,9 +1,41 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 const ServiceListPage = () => {
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/services');
+        setServices(response.data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchServices();
+  }, []);
+
+  const handleBooking = (serviceId) => {
+    navigate(`/booking?service_id=${serviceId}`);
+  };
+
+  const formatPrice = (price) => {
+      const priceStr = price % 1 === 0 ? price.toString() : price.toFixed(2);
+      return priceStr.replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  };
+    
+  if (loading) return <div className="text-center py-10">Loading...</div>;
+  if (error) return <div className="text-center py-10 text-red-500">Error: {error}</div>;
+
   return (
     <section className="mt-10 pb-10 px-4 sm:px-10 flex flex-col items-center justify-center">
-      {/* Judul Halaman */}
       <div className="text-center mb-12">
         <h1 className="text-4xl sm:text-5xl font-bold mb-2">
           🛠️ Layanan Servis Motor Kami
@@ -13,57 +45,28 @@ const ServiceListPage = () => {
         </p>
       </div>
 
-      {/* Grid Layanan */}
       <div className="grid max-w-6xl grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {/* Layanan 1 */}
-        <ServiceCard
-          title="Ganti Oli Mesin"
-          price="Rp 150.000"
-          originalPrice="Rp 200.000"
-          description="Layanan penggantian oli mesin untuk menjaga performa optimal."
-          features={[
-            "Membersihkan kerak dan memperlancar sirkulasi oli",
-            "Disarankan setiap 2.000 km",
-            "Durasi pengerjaan ±30 menit",
-          ]}
-        />
-
-        {/* Layanan 2 */}
-        <ServiceCard
-          title="Servis Rem"
-          price="Rp 135.000"
-          originalPrice="Rp 180.000"
-          description="Pemeriksaan dan penggantian kampas rem depan/belakang."
-          badge="Populer"
-          features={[
-            "Aman dari rem blong",
-            "Direkomendasikan setiap 6.000 km",
-            "Durasi pengerjaan ±45 menit",
-          ]}
-        />
-
-        {/* Layanan 3 */}
-        <ServiceCard
-          title="Tune Up Lengkap"
-          price="Rp 250.000"
-          originalPrice="Rp 300.000"
-          description="Perawatan menyeluruh untuk meningkatkan performa motor."
-          features={[
-            "Pembersihan karburator & throttle body",
-            "Cek kelistrikan, aki, busi, dan setelan mesin",
-            "Durasi pengerjaan ±60 menit",
-          ]}
-        />
+        {services.map((service) => (
+          <ServiceCard
+            key={service.id}
+            service={service}
+            price={`Rp ${formatPrice(service.current_price)}`}
+            originalPrice={`Rp ${formatPrice(service.original_price)}`}
+            description={service.description}
+            badge={service.is_popular ? "Populer" : null}
+            features={service.features}
+            onBooking={handleBooking}
+          />
+        ))}
       </div>
     </section>
   );
 };
 
-// Komponen Kartu Layanan
-const ServiceCard = ({ title, description, price, originalPrice, badge, features }) => (
+const ServiceCard = ({ service, description, price, originalPrice, badge, features, onBooking }) => (
   <div className={`rounded-3xl p-8 xl:p-10 ${badge ? "ring-2 ring-blue-600" : "ring-1 ring-gray-200"}`}>
     <div className="flex items-center justify-between gap-x-4">
-      <h3 className={`text-2xl font-semibold leading-8 ${badge ? "text-blue-600" : "text-gray-900"}`}>{title}</h3>
+      <h3 className={`text-2xl font-semibold leading-8 ${badge ? "text-blue-600" : "text-gray-900"}`}>{service.name}</h3>
       {badge && (
         <p className="rounded-full bg-blue-600/10 px-2.5 py-1 text-xs font-semibold text-blue-600">
           {badge}
@@ -76,7 +79,9 @@ const ServiceCard = ({ title, description, price, originalPrice, badge, features
       <span className="text-3xl font-bold tracking-tight text-red-600">{price}</span>
     </p>
     <div className="mt-6 flex flex-col sm:flex-row gap-3">
-      <button className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-500 transition">
+      <button 
+        onClick={() => onBooking(service.id)}
+        className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-500 transition">
         Booking Sekarang
       </button>
     </div>
@@ -91,7 +96,6 @@ const ServiceCard = ({ title, description, price, originalPrice, badge, features
   </div>
 );
 
-// Komponen ikon centang
 const CheckIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"

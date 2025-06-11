@@ -1,6 +1,8 @@
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import LoginForm from "../components/acount/FormLogin";
+import { Toaster } from 'react-hot-toast';
+
 const LoginPage = () =>{
     return (
         <div>
@@ -15,6 +17,7 @@ const LoginPage = () =>{
                     <LoginForm />
             </section>
             <Footer />
+            <Toaster position="top-center" reverseOrder={false} />
         </div>
     );
 };

@@ -5,8 +5,16 @@ import { toast } from 'react-hot-toast';
 import { useAuth } from '../../admin/context/AuthContext'
 const LoginForm = () => {
     const { login } = useAuth();
+    const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({ email: '', password: '' });
     const navigate = useNavigate();
+
+    const redirectAfterLogin = (user, navigate) => {
+        if (user.is_admin) return navigate('/admin');
+        // Tambahkan role lain di masa depan
+        // else if (user.role === 'teknisi') return navigate('/dashboard/teknisi');
+        return navigate('/booking'); // default
+    };
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -14,20 +22,24 @@ const LoginForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true); // 👈 Start loading
+
         try {
-        const res = await axios.post('http://localhost:5000/api/auth/login', formData);
-        toast.success(res.data.message || 'Login berhasil!');
-        localStorage.setItem('token', res.data.token);
-        localStorage.setItem('user', JSON.stringify(res.data.user));
-        // Gunakan fungsi login dari context
-        login(res.data.token, res.data.user);
-        
-        // Redirect berdasarkan role
-        setTimeout(() => {
-            navigate(res.data.user.is_admin ? '/admin' : '/booking');
-        }, 1000);
+            const res = await axios.post('http://localhost:5000/api/auth/login', formData);
+            toast.success(res.data.message || 'Login berhasil!');
+            localStorage.setItem('token', res.data.token);
+            localStorage.setItem('user', JSON.stringify(res.data.user));
+            // Gunakan fungsi login dari context
+            login(res.data.token, res.data.user);
+            
+            // Redirect berdasarkan role
+            setTimeout(() => {
+                redirectAfterLogin(res.data.user, navigate);
+            }, 1000);
         } catch (err) {
             toast.error(err.response?.data?.message || 'Login gagal');
+        } finally {
+            setIsLoading(false); // 👈 End loading
         }
     };
 
@@ -50,6 +62,7 @@ const LoginForm = () => {
                     type="email"
                     name="email"
                     id="email"
+                    autoFocus 
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="nama@mail.com"
@@ -76,10 +89,20 @@ const LoginForm = () => {
                 />
                 </div>
                 
+                <div className="flex justify-end mb-1">
+                    <a
+                        href="/forgot-password"
+                        className="text-sm text-blue-600 hover:underline dark:text-blue-400"
+                    >
+                        Lupa Password?
+                    </a>
+                </div>
+
                 <button
-                type="submit"
+                type="submit" disabled={isLoading}
                 className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 >
+                    {isLoading && <span className="loader-spinner"></span>}
                 Login
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">

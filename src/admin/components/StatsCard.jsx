@@ -2,7 +2,7 @@ import React from 'react';
 import { Paper, Typography } from '@mui/material';
 
 const StatsCard = ({ title, value, change, icon, description }) => {
-    const isPositive = change.startsWith('+');
+    const isPositive = parseFloat(change) >= 0;
     
     return (
         <Paper className="p-4 h-full">

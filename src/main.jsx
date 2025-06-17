@@ -14,9 +14,13 @@ import ProtectedRoute from './components/ProtectedRoute';
 import AdminLayout from './admin/layouts/AdminLayout';
 import DashboardHome from './admin/view/DasboardHome';
 import BookingsManagement from './admin/view/Bookings';
-import ServicesManagement from './admin/view/Services';
+import ServicesManagement from './admin/view/ServicesPage';
 import CustomersManagement from './admin/view/Customers';
+import ContactsManagement from './admin/view/ContactsManagement';
 import AdminRoute from './admin/components/adminRoute';
+import ForgotPassword from './pages/ForgotPassword';
+import VerifyOtp from './pages/VerifyOtp';
+import ResetPassword from './pages/ResetPassword';
 import {AuthProvider}  from './admin/context/AuthContext';
 
 createRoot(document.getElementById('root')).render(
@@ -29,12 +33,16 @@ createRoot(document.getElementById('root')).render(
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/tentang-kami" element={<About />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/verify-otp" element={<VerifyOtp />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route element={<AdminRoute />}>
             <Route path="/admin" element={<AdminLayout />}>
                 <Route index element={<DashboardHome />} />
                 <Route path="/admin/bookings" element={<BookingsManagement />} />
                 <Route path="/admin/services" element={<ServicesManagement />} />
                 <Route path="/admin/customers" element={<CustomersManagement />} />
+                <Route path="/admin/contacts" element={<ContactsManagement />} />
             </Route>
         </Route>
           {/* Protected Routes */}

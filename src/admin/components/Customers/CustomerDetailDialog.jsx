@@ -33,6 +33,11 @@ const CustomerDetailDialog = ({
     }) => {
     const [tabValue, setTabValue] = useState(0);
 
+    // 🔍 Tambahkan log di sini:
+    console.log('🟢 Customer:', customer);
+    console.log('🟢 Vehicles:', customer?.vehicles);
+    console.log('🟢 Bookings:', customer?.bookings);
+    
     if (!customer) return null;
 
     return (

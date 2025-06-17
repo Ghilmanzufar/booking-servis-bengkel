@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import {
     Table,
     TableBody,
@@ -12,9 +13,12 @@ import {
     IconButton,
     Modal,
     Box,
-    Typography
+    Typography,
+    Divider,
+    ImageList,
+    ImageListItem
 } from '@mui/material';
-import { ChevronRight, TwoWheeler, Close } from '@mui/icons-material';
+import { ChevronRight, TwoWheeler, Close, MonetizationOn, Payment } from '@mui/icons-material';
 
 const style = {
     position: 'absolute',
@@ -22,6 +26,8 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 600,
+    maxHeight: '80vh',
+    overflowY: 'auto',
     bgcolor: 'background.paper',
     boxShadow: 24,
     p: 4,
@@ -31,15 +37,28 @@ const style = {
 const RecentBookings = ({ bookings = [] }) => {
     const [open, setOpen] = useState(false);
     const [selectedBooking, setSelectedBooking] = useState(null);
+    const [bookingDetails, setBookingDetails] = useState(null);
 
-    const handleRowClick = (booking) => {
+    const handleRowClick = async (booking) => {
         setSelectedBooking(booking);
+        try {
+            // Fetch detail booking dengan produk
+            const response = await axios.get(`http://localhost:5000/api/admin/bookings/${booking.id}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            setBookingDetails(response.data);
+        } catch (error) {
+            console.error('Error fetching booking details:', error);
+        }
         setOpen(true);
     };
 
     const handleClose = () => {
         setOpen(false);
         setSelectedBooking(null);
+        setBookingDetails(null);
     };
 
     const getStatusColor = (status) => {
@@ -55,6 +74,15 @@ const RecentBookings = ({ bookings = [] }) => {
             default:
                 return 'default';
         }
+    };
+
+    const formatPrice = (price) => {
+        if (!price) return "Rp 0";
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0
+        }).format(price);
     };
 
     return (
@@ -137,7 +165,7 @@ const RecentBookings = ({ bookings = [] }) => {
                         </IconButton>
                     </div>
                     
-                    {selectedBooking && (
+                    {selectedBooking && bookingDetails && (
                         <div className="space-y-4">
                             <div>
                                 <Typography variant="subtitle2">Pelanggan</Typography>
@@ -166,12 +194,97 @@ const RecentBookings = ({ bookings = [] }) => {
                                     {new Date(selectedBooking.booking_date).toLocaleDateString('id-ID')} - {selectedBooking.booking_time}
                                 </Typography>
                             </div>
-                            
+
+                            <Divider />
+
+                            {/* Detail Pembayaran */}
+                            <div>
+                                <Typography variant="subtitle2" className="flex items-center">
+                                    <Payment className="mr-1" /> Metode Pembayaran
+                                </Typography>
+                                <Typography>
+                                    {bookingDetails.payment_method === 'cash'
+                                        ? 'Tunai'
+                                        : bookingDetails.payment_method === 'qris'
+                                        ? 'QRIS'
+                                        : 'Transfer'}
+                                </Typography>
+                            </div>
+
+                            {/* Bukti Pembayaran jika ada */}
+                            {bookingDetails.payment_proof && (
+                                <div>
+                                    <Typography variant="subtitle2">Bukti Pembayaran</Typography>
+                                    <ImageList cols={1} sx={{ width: '100%', height: 200 }}>
+                                        <ImageListItem>
+                                            <img
+                                                src={`http://localhost:5000/uploads/payment_proofs/${bookingDetails.payment_proof}`}
+                                                alt="Bukti Pembayaran"
+                                                loading="lazy"
+                                                style={{ objectFit: 'contain', width: '100%', height: '100%' }}
+                                            />
+                                        </ImageListItem>
+                                    </ImageList>
+                                </div>
+                            )}
+
+                            <Divider />
+
+                            <div>
+                                <Typography variant="subtitle2" className="flex items-center">
+                                    <MonetizationOn className="mr-1" /> Rincian Harga
+                                </Typography>
+
+                                {/* Harga layanan */}
+                                <div className="flex justify-between mt-2">
+                                    <Typography variant="body2">
+                                        {selectedBooking.service_name}
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        {formatPrice(bookingDetails.service_price)}
+                                    </Typography>
+                                </div>
+
+                                {/* Produk jika ada */}
+                                {bookingDetails.products && bookingDetails.products.length > 0 && (
+                                    <>
+                                        <Divider sx={{ my: 1 }} />
+                                        <Typography variant="subtitle2">Produk Tambahan</Typography>
+                                        {bookingDetails.products.map((product, index) => (
+                                            <div key={index} className="flex justify-between mt-1">
+                                                <Typography variant="body2">
+                                                    {product.name} ({product.quantity}x)
+                                                </Typography>
+                                                <Typography variant="body2">
+                                                    {formatPrice(product.price * product.quantity)}
+                                                </Typography>
+                                            </div>
+                                        ))}
+                                    </>
+                                )}
+
+                                {/* Total */}
+                                <Divider sx={{ my: 1 }} />
+                                <div className="flex justify-between font-medium">
+                                    <Typography>Total</Typography>
+                                    <Typography>
+                                        {formatPrice(
+                                            (bookingDetails.service_price || 0) +
+                                            (bookingDetails.products?.reduce((sum, product) =>
+                                                sum + (product.price * product.quantity), 0) || 0)
+                                        )}
+                                    </Typography>
+                                </div>
+                            </div>
+
+                            <Divider />
+
                             <div>
                                 <Typography variant="subtitle2">Status</Typography>
                                 <Chip 
                                     label={selectedBooking.status} 
                                     color={getStatusColor(selectedBooking.status)}
+                                    sx={{ mt: 1 }}
                                 />
                             </div>
                         </div>

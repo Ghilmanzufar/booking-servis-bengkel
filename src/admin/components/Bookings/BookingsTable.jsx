@@ -13,19 +13,22 @@ import {
     Menu,
     MenuItem
 } from '@mui/material';
-import { MoreVert, CheckCircle, Cancel } from '@mui/icons-material';
+import { MoreVert, CheckCircle, Cancel, Info } from '@mui/icons-material';
 
 const BookingsTable = ({
     loading,
     filteredBookings,
     setSelectedBooking,
     handleStatusChange,
+    handleViewDetail
 }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [selectedBooking, setSelectedBookingLocal] = React.useState(null);
 
     const handleMenuOpen = (event, booking) => {
         setAnchorEl(event.currentTarget);
-        setSelectedBooking(booking);
+        setSelectedBooking(booking); 
+        setSelectedBookingLocal(booking); 
     };
 
     const handleMenuClose = () => {
@@ -107,6 +110,13 @@ const BookingsTable = ({
                 open={Boolean(anchorEl)}
                 onClose={handleMenuClose}
             >
+                <MenuItem onClick={() => {
+                    handleViewDetail(selectedBooking); // ini akan buka modal detail
+                    handleMenuClose();
+                }}>
+                    <Info sx={{ mr: 1 }} />
+                    Lihat Detail
+                </MenuItem>
                 <MenuItem onClick={() => {
                     handleStatusChange('diproses');
                     handleMenuClose();

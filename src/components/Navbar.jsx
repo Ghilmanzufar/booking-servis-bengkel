@@ -4,7 +4,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import userImg from './Profile/user.png';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-
+import axios from 'axios';
 const navigation = [
     { name: 'Home', href: '/', current: true },
     { name: 'Layanan Kami', href: '/layanan', current: false },
@@ -23,15 +23,21 @@ export default function Navbar() {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        const user = JSON.parse(localStorage.getItem('user'));
-        
-        if (token && user) {
+        if (token) {
+        axios.get('http://localhost:5000/api/auth/profile', {
+            headers: { Authorization: `Bearer ${token}` }
+        }).then(res => {
             setIsLoggedIn(true);
-            setUserData(user);
-        } else {
+            setUserData(res.data.user);
+        }).catch(() => {
             setIsLoggedIn(false);
             setUserData(null);
+        });
+        } else {
+        setIsLoggedIn(false);
+        setUserData(null);
         }
+
     }, []);
 
     const handleLogout = () => {
@@ -96,7 +102,7 @@ export default function Navbar() {
                                         <span className="sr-only">Open user menu</span>
                                         <img
                                             className="h-8 w-8 rounded-full"
-                                            src={userData?.avatar || userImg}
+                                            src={userData?.avatar ? `http://localhost:5000${userData.avatar}` : userImg}
                                             alt="User profile"
                                         />
                                     </MenuButton>

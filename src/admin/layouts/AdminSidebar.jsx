@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, CalendarCheck, Settings, Users, LogOut } from 'lucide-react';
+import { LayoutDashboard, CalendarCheck, Settings, Users, LogOut, Inbox } from 'lucide-react';
 
 const AdminSidebar = ({ onLogout }) => {
     const linkClasses = ({ isActive }) =>
@@ -26,6 +26,14 @@ const AdminSidebar = ({ onLogout }) => {
                     <NavLink to="/admin/customers" className={linkClasses}>
                         <Users size={20} />
                         Customers
+                    </NavLink>
+                    <NavLink to="/admin/services" className={linkClasses}>
+                        <Settings size={20} />
+                        Services
+                    </NavLink>
+                    <NavLink to="/admin/contacts" className={linkClasses}>
+                        <Inbox size={20} />
+                        Kontak Masuk
                     </NavLink>
                 </nav>
             </div>

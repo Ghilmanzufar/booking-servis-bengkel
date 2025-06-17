@@ -5,12 +5,19 @@ import BookingsTable from '../components/Bookings/BookingsTable';
 import BookingsFilter from '../components/Bookings/BookingFilter';
 import adminService from '../services/adminService';
 import { useAuth } from '../context/AuthContext';
+import BookingDetailModal from '../components/Bookings/BookingDetailModal';
+import EditBookingModal from '../components/Bookings/EditBookingModal';
+import axios from 'axios';
 
-    const BookingsManagement = () => {
+const BookingsManagement = () => {
         const { token } = useAuth();
         const [bookings, setBookings] = useState([]);
         const [filteredBookings, setFilteredBookings] = useState([]);
+        const [detailOpen, setDetailOpen] = useState(false);
+        const [editOpen, setEditOpen] = useState(false);
+        const [editBooking, setEditBooking] = useState(null);
         const [loading, setLoading] = useState(true);
+        const [bookingDetails, setBookingDetails] = useState(null);
         const [filters, setFilters] = useState({
             status: '',
             date: '',
@@ -81,6 +88,63 @@ import { useAuth } from '../context/AuthContext';
             }
         };
 
+        const handleViewDetail = async (booking) => {
+            setSelectedBooking(booking);
+            try {
+                const res = await axios.get(`http://localhost:5000/api/admin/bookings/${booking.id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+                });
+                setBookingDetails(res.data);
+                setDetailOpen(true);
+            } catch (err) {
+                console.error(err);
+                showSnackbar('Gagal memuat detail booking', 'error');
+            }
+        };
+
+        const handleCloseDetail = () => {
+            setDetailOpen(false);
+            setSelectedBooking(null);
+        };
+
+        const handleCloseEdit = () => {
+            setEditOpen(false);
+            setEditBooking(null);
+        };
+
+        const handleEditBooking = (booking) => {
+            setEditBooking(booking);
+            setDetailOpen(false); // Tutup modal detail
+            setEditOpen(true);
+        };
+
+        // Simpan perubahan
+        const handleSaveEdit = async (updatedData) => {
+            try {
+                await adminService.updateBooking(updatedData.id, {
+                    booking_date: updatedData.date,
+                    booking_time: updatedData.time,
+                    complaint: updatedData.complaint,
+                    payment_method: updatedData.payment_method
+                }, token);
+
+                const updated = bookings.map(b =>
+                    b.id === updatedData.id
+                        ? { ...b, date: updatedData.date, time: updatedData.time }
+                        : b
+                );
+
+                setBookings(updated);
+                setFilteredBookings(updated);
+                setEditOpen(false);
+                showSnackbar('Booking berhasil diperbarui');
+            } catch (err) {
+                console.error(err);
+                showSnackbar('Gagal menyimpan perubahan', 'error');
+            }
+        };
+        
+        // Simpan perubahan
         return (
             <div className="p-4">
                 <div className="flex justify-between items-center mb-6">
@@ -106,8 +170,23 @@ import { useAuth } from '../context/AuthContext';
                     filteredBookings={filteredBookings}
                     setSelectedBooking={setSelectedBooking}
                     handleStatusChange={handleStatusChange}
+                    handleViewDetail={handleViewDetail}
                 />
 
+                <BookingDetailModal
+                    open={detailOpen}
+                    onClose={handleCloseDetail}
+                    booking={selectedBooking}
+                    bookingDetails={bookingDetails}
+                    onEdit={handleEditBooking}
+                />
+
+                <EditBookingModal
+                    open={editOpen}
+                    onClose={handleCloseEdit}
+                    booking={editBooking}
+                    onSave={handleSaveEdit}
+                />
                 <Snackbar
                     open={snackbar.open}
                     autoHideDuration={6000}

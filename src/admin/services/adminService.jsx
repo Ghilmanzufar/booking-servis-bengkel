@@ -99,22 +99,22 @@ const getAdminStats = async (token) => {
         try {
             const response = await axios.get(`http://localhost:5000/api/admin/customers/${id}`, {
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 }
             });
-            
-            // Pastikan struktur data konsisten
-            return {
-                ...response.data,
-                vehicles: response.data.vehicles || [],
-                bookings: response.data.bookings || []
-            };
+
+            // ✅ Tambahkan log untuk pastikan respons
+            console.log('📦 RAW response from backend:', response.data);
+
+            // ✅ Jangan overwrite vehicles/bookings di sini
+            return response.data; // Langsung kembalikan tanpa overwrite
         } catch (error) {
-            console.error('Error fetching customer detail:', error);
+            console.error('❌ Error fetching customer detail:', error);
             throw error;
         }
     };
+
 
     const updateCustomer = async (id, customerData, token) => {
         try {
@@ -145,6 +145,62 @@ const getAdminStats = async (token) => {
             throw error;
         }
     };
+
+    const updateBooking = async (id, data, token) => {
+        const res = await axios.put(`http://localhost:5000/api/admin/bookings/${id}`, data, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        return res.data;
+    };
+
+    const addMotorcycle = async (data, token) => {
+        const res = await axios.post('http://localhost:5000/api/admin/motorcycles', data, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        return res.data;
+    }
+
+    const updateMotorcycle = async (id, data, token) => {
+        const res = await fetch(`http://localhost:5000/api/admin/motorcycles/${id}`, {
+            method: 'PUT',
+            headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(data)
+        });
+
+        const result = await res.json();
+        if (!res.ok) throw new Error(result.message || 'Gagal update kendaraan');
+        return result;
+    };
+
+    const deleteMotorcycle = async (id, token) => {
+        const res = await fetch(`http://localhost:5000/api/admin/motorcycles/${id}`, {
+            method: 'DELETE',
+            headers: {
+            Authorization: `Bearer ${token}`
+            }
+        });
+        const result = await res.json();
+        if (!res.ok) throw new Error(result.message || 'Gagal menghapus motor');
+        return result;
+    };
+
+    const getAllContacts = async (token) => {
+        const res = await axios.get('http://localhost:5000/api/contacts', {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        return res.data.data;
+    };
+
+    const deleteContact = async (id, token) => {
+        const res = await axios.delete(`http://localhost:5000/api/contacts/${id}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        return res.data;
+    };
+
 export default {
     getAdminStats,
     getRecentBookings,
@@ -153,5 +209,11 @@ export default {
     getAllCustomers,
     getCustomerDetail,
     updateCustomer,
-    deleteCustomer
+    deleteCustomer,
+    updateBooking,
+    addMotorcycle,
+    updateMotorcycle,
+    deleteMotorcycle,
+    getAllContacts,
+    deleteContact
 };

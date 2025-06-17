@@ -10,6 +10,7 @@ import ComplaintSection from "./ComplaintSection";
 import PaymentSummary from "./PaymentSummary";
 import PaymentMethod from "./PaymentMethod";
 import QrisModal from "./QrisModal";
+import { FaMotorcycle, FaUser, FaCheck, FaClock } from "react-icons/fa";
 
 const BookingFormSection = ({ motorcycles, initialServiceId }) => {
     const [formData, setFormData] = useState({

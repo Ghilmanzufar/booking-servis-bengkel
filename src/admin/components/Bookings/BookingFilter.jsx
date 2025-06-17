@@ -77,7 +77,7 @@ const BookingsFilter = ({ filters, setFilters, bookings, setFilteredBookings }) 
                 >
                     <option value="">Semua Status</option>
                     <option value="terjadwal">Terjadwal</option>
-                    <option value="diproses">Konfirmasi</option>
+                    <option value="diproses">Diproses</option>
                     <option value="selesai">Selesai</option>
                     <option value="dibatalkan">Batalkan</option>
                 </TextField>
@@ -114,7 +114,6 @@ const BookingsFilter = ({ filters, setFilters, bookings, setFilteredBookings }) 
                     <option value="Servis Rantai">Servis Rantai</option>
                     <option value="Servis Injeksi">Servis Injeksi</option>
                     <option value="Ganti Busi">Ganti busi</option>
-                    <option value="Ganti Kampas Kopling">Ganti kampas kompling</option>
                 </TextField>
 
                 <div className="flex space-x-2">

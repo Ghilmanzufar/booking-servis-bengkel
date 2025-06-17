@@ -5,7 +5,8 @@ import { toast } from "react-hot-toast";
 
 const RegisterForm = () => {
     const navigate = useNavigate();
-    
+    const [isLoading, setIsLoading] = useState(false);
+
     const [formData, setFormData] = useState({
         name: "",
         phone: "",
@@ -25,14 +26,52 @@ const RegisterForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+         // Tambahkan validasi dulu sebelum request dikirim
+        if (formData.password !== formData.confirmPassword) {
+            toast.error("Password dan konfirmasi password tidak cocok");
+            return;
+        }
+        // Validasi email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(formData.email)) {
+            toast.error("Format email tidak valid");
+            return;
+        }
+
+        //Validasi panjang password
+        if (formData.password.length < 6) {
+            toast.error("Password minimal 6 karakter");
+            return;
+        }
+        // Validasi panjang nama 
+        if (formData.name.trim().length < 3) {
+        toast.error("Nama minimal 3 huruf");
+        return;
+        }
+        // Validasi no HP
+        if (!/^08\d{8,11}$/.test(formData.phone)) {
+        toast.error("Nomor telepon tidak valid");
+        return;
+        }
+        setIsLoading(true); // 👈 Start loading
+
+        const { name, phone, email, password } = formData;
         try {
-            const res = await axios.post('http://localhost:5000/api/users/register', formData);
+            const res = await axios.post('http://localhost:5000/api/users/register', {
+                name, phone, email, password
+            });
             toast.success(res.data.message || "Register berhasil!");
             navigate("/login");
         } catch (err) {
-            toast.error(err.response?.data?.message || "Terjadi kesalahan");
+            const errorMsg = err.response?.data?.message;
+            if (errorMsg === "Email sudah terdaftar") {
+                toast.error("Email ini sudah digunakan. Silakan gunakan email lain.");
+            } else {
+                toast.error(errorMsg || "Terjadi kesalahan saat registrasi.");
+            }
+        } finally {
+            setIsLoading(false); // 👈 End loading
         }
-
     };
 
     return (
@@ -51,6 +90,7 @@ const RegisterForm = () => {
                     type="text"
                     name="name"
                     id="name"
+                    autoFocus 
                     placeholder="Ghilman zufar"
                     required
                     value={formData.name}
@@ -61,7 +101,7 @@ const RegisterForm = () => {
 
                 <div>
                 <label htmlFor="phone" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Nomer telepon
+                    Nomer telepon *whatsapp
                 </label>
                 <input
                     type="tel"
@@ -124,9 +164,10 @@ const RegisterForm = () => {
                 </div>
 
                 <button
-                type="submit"
+                type="submit" disabled={isLoading}
                 className="w-full bg-indigo-600 text-white font-semibold py-3 rounded-md hover:bg-indigo-700 transition"
                 >
+                {isLoading && <span className="loader-spinner"></span>}
                 Register Akun
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">

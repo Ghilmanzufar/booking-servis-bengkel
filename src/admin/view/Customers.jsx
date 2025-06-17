@@ -62,7 +62,23 @@ const CustomersManagement = () => {
     const handleEditCustomer = async (updatedCustomer) => {
         try {
             setLoading(true);
+            // 1. Simpan data customer dulu
             await adminService.updateCustomer(updatedCustomer.id, updatedCustomer, token);
+
+            // 2. Simpan kendaraan baru (jika ada)
+            for (const vehicle of updatedCustomer.vehicles) {
+                if (!vehicle.id) {
+                    // Jika kendaraan baru (tidak punya id)
+                    await adminService.addMotorcycle({
+                        user_id: updatedCustomer.id,
+                        brand: vehicle.brand,
+                        model: vehicle.model,
+                        year: vehicle.year,
+                        license_plate: vehicle.license_plate
+                    }, token);
+                }
+            }
+
             await fetchCustomers(); // Refresh data
             setSnackbar({
                 open: true,
@@ -106,28 +122,20 @@ const CustomersManagement = () => {
     const handleViewDetail = async (customer) => {
         try {
             setLoading(true);
-            const detail = await adminService.getCustomerDetail(customer.id, token);
-            console.log('API Response:', detail);
-            
-            // Debugging - lihat struktur data
-            console.log('Vehicles:', detail.vehicles);
-            console.log('Bookings:', detail.bookings);
-            
-            setCurrentCustomer({
-                ...detail,
-                vehicles: detail.vehicles || [],
-                bookings: detail.bookings || []
-            });
+            const detail = await adminService.getCustomerDetail(customer.id, token); // ✅ token dikirim
+            console.log('✅ Detail fetched from backend:', detail);
+
+            setCurrentCustomer(detail);
             setOpenDetail(true);
         } catch (error) {
-            console.error('Error:', {
-            message: error.message,
-            response: error.response?.data
+            console.error('❌ Gagal memuat detail pelanggan:', {
+                message: error.message,
+                response: error.response?.data
             });
             setSnackbar({
-            open: true,
-            message: 'Gagal memuat detail pelanggan',
-            severity: 'error'
+                open: true,
+                message: 'Gagal memuat detail pelanggan',
+                severity: 'error'
             });
         } finally {
             setLoading(false);
@@ -176,23 +184,41 @@ const CustomersManagement = () => {
             open={Boolean(anchorEl)}
             onClose={() => setAnchorEl(null)}
             onViewDetail={() => {
-                handleViewDetail(currentCustomer)
+                const selected = currentCustomer;        // Simpan sementara
+                setAnchorEl(null);                       // ❗️Tutup menu dulu
+                setTimeout(() => {
+                handleViewDetail(selected);            // Lalu buka detail
+                }, 150); // Delay kecil agar transisi smooth
             }}
-            onEdit={() => {
-                setEditingCustomer(currentCustomer);
-                setOpenEditModal(true);
-                setAnchorEl(null);
+            onEdit={async () => {
+                setAnchorEl(null); // Tutup menu
+
+                try {
+                    const detail = await adminService.getCustomerDetail(currentCustomer.id, token);
+                    setEditingCustomer(detail);
+                    setOpenEditModal(true);
+                } catch (error) {
+                    console.error("❌ Gagal memuat data edit:", error);
+                    setSnackbar({
+                    open: true,
+                    message: 'Gagal memuat data pelanggan untuk edit',
+                    severity: 'error'
+                    });
+                }
             }}
+
             onDelete={() => {
-            setOpenDeleteDialog(true);
                 setAnchorEl(null);
+                setOpenDeleteDialog(true);
             }}
         />
+
 
         <CustomerDetailDialog
             open={openDetail}
             onClose={() => setOpenDetail(false)}
             customer={currentCustomer}
+            loading={loading}
             onEdit={() => {
                 setOpenDetail(false);
                 navigate(`/admin/customers/edit/${currentCustomer.id}`);
@@ -207,30 +233,12 @@ const CustomersManagement = () => {
             onDelete={handleDelete}
         />
 
-        <CustomerActionMenu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={() => setAnchorEl(null)}
-            onViewDetail={() => {
-                setOpenDetail(true);
-                setAnchorEl(null);
-            }}
-            onEdit={() => {
-                setEditingCustomer(currentCustomer);
-                setOpenEditModal(true);
-                setAnchorEl(null);
-            }}
-            onDelete={() => {
-                setOpenDeleteDialog(true);
-                setAnchorEl(null);
-            }}
-        />
-
         <EditCustomerModal
         open={openEditModal}
         onClose={() => setOpenEditModal(false)}
         customer={editingCustomer}
         onSave={handleEditCustomer}
+        onSuccess={fetchCustomers}
         />
 
         <Snackbar

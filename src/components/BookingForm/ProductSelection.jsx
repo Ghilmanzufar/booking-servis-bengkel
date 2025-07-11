@@ -21,7 +21,7 @@ const ProductSelection = ({ serviceProducts, formData, handleProductSelect, form
                         <div className="flex items-start gap-4">
                             {product.image_url && (
                                 <img 
-                                    src={`https://be.booking-servis-motor.biz.id/ /images/products/${product.image_url}`}
+                                    src={`https://be.booking-servis-motor.biz.id/images/products/${product.image_url}`}
                                     alt={product.name}
                                     className="w-16 h-16 object-contain rounded"
                                 />

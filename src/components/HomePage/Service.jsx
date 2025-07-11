@@ -41,7 +41,7 @@ const ServiceList = () => {
         <section className="bg-white py-16">
             <div className="text-center mb-12">
                 <h2 className="block w-full bg-gradient-to-b from-black to-gray-400 bg-clip-text font-bold text-transparent text-3xl sm:text-4xl">
-                    Jenis Layanan Kami
+                    Layanan Servis Kami
                 </h2>
             </div>
 

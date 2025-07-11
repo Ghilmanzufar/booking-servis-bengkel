@@ -32,7 +32,6 @@ const BookingForm = () => {
         fetchMotorcycles();
     }, []);
 
-    // Dapatkan service_id dari URL
     const queryParams = new URLSearchParams(location.search);
     const serviceId = queryParams.get('service_id');
     

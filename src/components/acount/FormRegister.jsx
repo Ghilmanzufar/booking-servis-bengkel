@@ -70,7 +70,7 @@ const RegisterForm = () => {
                 toast.error(errorMsg || "Terjadi kesalahan saat registrasi.");
             }
         } finally {
-            setIsLoading(false); // 👈 End loading
+            setIsLoading(false); 
         }
     };
 
@@ -165,7 +165,7 @@ const RegisterForm = () => {
 
                 <button
                 type="submit" disabled={isLoading}
-                className="w-full bg-indigo-600 text-white font-semibold py-3 rounded-md hover:bg-indigo-700 transition"
+                className="w-full bg-blue-600 text-white font-semibold py-3 rounded-md hover:bg-blue-700 transition"
                 >
                 {isLoading && <span className="loader-spinner"></span>}
                 Register Akun

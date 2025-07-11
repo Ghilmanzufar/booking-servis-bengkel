@@ -11,8 +11,6 @@ const LoginForm = () => {
 
     const redirectAfterLogin = (user, navigate) => {
         if (user.is_admin) return navigate('/admin');
-        // Tambahkan role lain di masa depan
-        // else if (user.role === 'teknisi') return navigate('/dashboard/teknisi');
         return navigate('/booking'); // default
     };
 
@@ -22,17 +20,15 @@ const LoginForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsLoading(true); // 👈 Start loading
+        setIsLoading(true); 
 
         try {
             const res = await axios.post('http://localhost:5000/api/auth/login', formData);
             toast.success(res.data.message || 'Login berhasil!');
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('user', JSON.stringify(res.data.user));
-            // Gunakan fungsi login dari context
             login(res.data.token, res.data.user);
             
-            // Redirect berdasarkan role
             setTimeout(() => {
                 redirectAfterLogin(res.data.user, navigate);
             }, 1000);
@@ -44,7 +40,7 @@ const LoginForm = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 backdrop-blur-sm">
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">

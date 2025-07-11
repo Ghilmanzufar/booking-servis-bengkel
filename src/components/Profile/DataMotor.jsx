@@ -264,7 +264,7 @@ const DataMotorPengguna = () => {
                                             </div>
 
                                             <div>
-                                                <label className="block text-sm font-medium text-gray-700">Tahun Pembuatan</label>
+                                                <label className="block text-sm font-medium text-gray-700">Tahun Motor</label>
                                                 <input
                                                     type="number"
                                                     name="tahun"

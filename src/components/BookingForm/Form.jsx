@@ -37,7 +37,6 @@ const BookingFormSection = ({ motorcycles, initialServiceId }) => {
     const [totalPayment, setTotalPayment] = useState(0);
     const navigate = useNavigate();
 
-    // Fetch services data
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -80,7 +79,6 @@ const BookingFormSection = ({ motorcycles, initialServiceId }) => {
         }
     }, [formData.service_id, services]);
 
-    // Check availability when date changes
     useEffect(() => {
         if (formData.tanggal) {
             const checkAvailability = async () => {

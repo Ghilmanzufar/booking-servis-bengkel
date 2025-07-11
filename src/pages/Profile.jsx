@@ -24,7 +24,7 @@ const ProfilePage = () => {
                 return;
             }
 
-            const response = await axios.get("http://localhost:5000/api/auth/profile", {
+            const response = await axios.get("https://be.booking-servis-motor.biz.id/api/auth/profile", {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

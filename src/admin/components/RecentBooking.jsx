@@ -43,7 +43,7 @@ const RecentBookings = ({ bookings = [] }) => {
         setSelectedBooking(booking);
         try {
             // Fetch detail booking dengan produk
-            const response = await axios.get(`http://localhost:5000/api/admin/bookings/${booking.id}`, {
+            const response = await axios.get(`https://be.booking-servis-motor.biz.id/api/admin/bookings/${booking.id}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
@@ -218,7 +218,7 @@ const RecentBookings = ({ bookings = [] }) => {
                                     <ImageList cols={1} sx={{ width: '100%', height: 200 }}>
                                         <ImageListItem>
                                             <img
-                                                src={`http://localhost:5000/uploads/payment_proofs/${bookingDetails.payment_proof}`}
+                                                src={`https://be.booking-servis-motor.biz.id/uploads/payment_proofs/${bookingDetails.payment_proof}`}
                                                 alt="Bukti Pembayaran"
                                                 loading="lazy"
                                                 style={{ objectFit: 'contain', width: '100%', height: '100%' }}

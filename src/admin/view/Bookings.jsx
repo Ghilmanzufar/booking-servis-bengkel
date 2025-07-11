@@ -91,7 +91,7 @@ const BookingsManagement = () => {
         const handleViewDetail = async (booking) => {
             setSelectedBooking(booking);
             try {
-                const res = await axios.get(`http://localhost:5000/api/admin/bookings/${booking.id}`, {
+                const res = await axios.get(`https://be.booking-servis-motor.biz.id/api/admin/bookings/${booking.id}`, {
                 headers: { Authorization: `Bearer ${token}` }
                 });
                 setBookingDetails(res.data);

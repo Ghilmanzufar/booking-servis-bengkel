@@ -46,7 +46,7 @@ const ProductEditModal = ({ open, onClose, product, token, onSuccess }) => {
         }
 
         try {
-        const res = await fetch(`http://localhost:5000/api/admin/products/${product.id}`, {
+        const res = await fetch(`https://be.booking-servis-motor.biz.id/api/admin/products/${product.id}`, {
             method: 'PUT',
             headers: {
             Authorization: `Bearer ${token}`
@@ -76,7 +76,7 @@ const ProductEditModal = ({ open, onClose, product, token, onSuccess }) => {
             <Typography variant="subtitle2">Gambar Saat Ini</Typography>
             {product?.image_url ? (
                 <img
-                    src={`http://localhost:5000/images/products/${product.image_url}`}
+                    src={`https://be.booking-servis-motor.biz.id/images/products/${product.image_url}`}
                     alt={product?.name || 'Foto Produk'}
                     style={{ width: 100, height: 60, objectFit: 'cover', marginBottom: 8 }}
                 />

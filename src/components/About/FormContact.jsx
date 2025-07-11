@@ -37,7 +37,7 @@ const ContactForm = () => {
         setLoading(true);
         
         try {
-            const response = await axios.post('http://localhost:5000/api/contacts', formData);
+            const response = await axios.post('https://be.booking-servis-motor.biz.id/api/contacts', formData);
             
             if (response.data.success) {
                 toast.success('Pesan berhasil dikirim! Kami akan segera menghubungi Anda.');

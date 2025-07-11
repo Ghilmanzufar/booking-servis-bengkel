@@ -21,7 +21,7 @@ const EditProfileModal = ({ open, onClose, user, onUpdated }) => {
             phone: user.phone || '',
             avatar: null,
         });
-        setPreview(user.avatar ? `http://localhost:5000${user.avatar}` : '');
+        setPreview(user.avatar ? `https://be.booking-servis-motor.biz.id${user.avatar}` : '');
     }, [user]);
 
     const handleChange = (e) => {
@@ -59,13 +59,13 @@ const EditProfileModal = ({ open, onClose, user, onUpdated }) => {
 
         try {
             setLoading(true);
-            await axios.put('http://localhost:5000/api/users/profile', data, {
+            await axios.put('https://be.booking-servis-motor.biz.id/api/users/profile', data, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            const updatedUser = await axios.get('http://localhost:5000/api/auth/profile', {
+            const updatedUser = await axios.get('https://be.booking-servis-motor.biz.id/api/auth/profile', {
             headers: { Authorization: `Bearer ${token}` }
             });
             localStorage.setItem('user', JSON.stringify(updatedUser.data.user));

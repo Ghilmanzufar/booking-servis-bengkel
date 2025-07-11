@@ -17,7 +17,7 @@ const RiwayatBookingTable = () => {
         const fetchBookings = async () => {
             try {
                 const token = localStorage.getItem("token");
-                const response = await axios.get("http://localhost:5000/api/bookings", {
+                const response = await axios.get("https://be.booking-servis-motor.biz.id/api/bookings", {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setBookings(response.data.bookings);
@@ -36,7 +36,7 @@ const RiwayatBookingTable = () => {
     const handleCancel = async () => {
         try {
             const token = localStorage.getItem("token");
-            await axios.put(`http://localhost:5000/api/bookings/${bookingToCancel.id}/cancel`, {}, {
+            await axios.put(`https://be.booking-servis-motor.biz.id/api/bookings/${bookingToCancel.id}/cancel`, {}, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setBookings(bookings.map(b => 
@@ -60,7 +60,7 @@ const RiwayatBookingTable = () => {
     const handleViewDetail = async (bookingId) => {
         try {
             const token = localStorage.getItem("token");
-            const response = await axios.get(`http://localhost:5000/api/bookings/${bookingId}`, {
+            const response = await axios.get(`https://be.booking-servis-motor.biz.id/api/bookings/${bookingId}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setSelectedBooking(response.data);

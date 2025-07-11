@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const getAdminStats = async (token) => {
     try {
-        const response = await axios.get('http://localhost:5000/api/admin/stats', {
+        const response = await axios.get('https://be.booking-servis-motor.biz.id/api/admin/stats', {
         headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -17,7 +17,7 @@ const getAdminStats = async (token) => {
 
     const getRecentBookings = async (token) => {
         try {
-            const response = await axios.get(`http://localhost:5000/api/admin/bookings/recent`, {
+            const response = await axios.get(`https://be.booking-servis-motor.biz.id/api/admin/bookings/recent`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -33,7 +33,7 @@ const getAdminStats = async (token) => {
     // Pastikan format data dari API konsisten
     const getAdminBookings = async (token) => {
         try {
-            const response = await axios.get(`http://localhost:5000/api/admin/bookings`, {
+            const response = await axios.get(`https://be.booking-servis-motor.biz.id/api/admin/bookings`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -62,7 +62,7 @@ const getAdminStats = async (token) => {
     const updateBookingStatus = async (bookingId, status, token) => {
         try {
             const response = await axios.put(
-                `http://localhost:5000/api/admin/bookings/${bookingId}/status`,
+                `https://be.booking-servis-motor.biz.id/api/admin/bookings/${bookingId}/status`,
                 { status },
                 {
                     headers: {
@@ -81,7 +81,7 @@ const getAdminStats = async (token) => {
     
     const getAllCustomers = async (token) => {
         try {
-            const response = await axios.get(`http://localhost:5000/api/admin/customers`, {
+            const response = await axios.get(`https://be.booking-servis-motor.biz.id/api/admin/customers`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -97,7 +97,7 @@ const getAdminStats = async (token) => {
     // services/adminService.js
     const getCustomerDetail = async (id, token) => {
         try {
-            const response = await axios.get(`http://localhost:5000/api/admin/customers/${id}`, {
+            const response = await axios.get(`https://be.booking-servis-motor.biz.id/api/admin/customers/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -118,7 +118,7 @@ const getAdminStats = async (token) => {
 
     const updateCustomer = async (id, customerData, token) => {
         try {
-            const response = await axios.put(`http://localhost:5000/api/admin/customers/${id}`, customerData, {
+            const response = await axios.put(`https://be.booking-servis-motor.biz.id/api/admin/customers/${id}`, customerData, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -133,7 +133,7 @@ const getAdminStats = async (token) => {
 
     const deleteCustomer = async (id, token) => {
         try {
-            const response = await axios.delete(`http://localhost:5000/api/admin/customers/${id}`, {
+            const response = await axios.delete(`https://be.booking-servis-motor.biz.id/api/admin/customers/${id}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -147,21 +147,21 @@ const getAdminStats = async (token) => {
     };
 
     const updateBooking = async (id, data, token) => {
-        const res = await axios.put(`http://localhost:5000/api/admin/bookings/${id}`, data, {
+        const res = await axios.put(`https://be.booking-servis-motor.biz.id/api/admin/bookings/${id}`, data, {
             headers: { Authorization: `Bearer ${token}` }
         });
         return res.data;
     };
 
     const addMotorcycle = async (data, token) => {
-        const res = await axios.post('http://localhost:5000/api/admin/motorcycles', data, {
+        const res = await axios.post('https://be.booking-servis-motor.biz.id/api/admin/motorcycles', data, {
             headers: { Authorization: `Bearer ${token}` }
         });
         return res.data;
     }
 
     const updateMotorcycle = async (id, data, token) => {
-        const res = await fetch(`http://localhost:5000/api/admin/motorcycles/${id}`, {
+        const res = await fetch(`https://be.booking-servis-motor.biz.id/api/admin/motorcycles/${id}`, {
             method: 'PUT',
             headers: {
             'Content-Type': 'application/json',
@@ -176,7 +176,7 @@ const getAdminStats = async (token) => {
     };
 
     const deleteMotorcycle = async (id, token) => {
-        const res = await fetch(`http://localhost:5000/api/admin/motorcycles/${id}`, {
+        const res = await fetch(`https://be.booking-servis-motor.biz.id/api/admin/motorcycles/${id}`, {
             method: 'DELETE',
             headers: {
             Authorization: `Bearer ${token}`
@@ -188,14 +188,14 @@ const getAdminStats = async (token) => {
     };
 
     const getAllContacts = async (token) => {
-        const res = await axios.get('http://localhost:5000/api/contacts', {
+        const res = await axios.get('https://be.booking-servis-motor.biz.id/api/contacts', {
             headers: { Authorization: `Bearer ${token}` }
         });
         return res.data.data;
     };
 
     const deleteContact = async (id, token) => {
-        const res = await axios.delete(`http://localhost:5000/api/contacts/${id}`, {
+        const res = await axios.delete(`https://be.booking-servis-motor.biz.id/api/contacts/${id}`, {
             headers: { Authorization: `Bearer ${token}` }
         });
         return res.data;

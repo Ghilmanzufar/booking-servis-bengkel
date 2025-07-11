@@ -99,7 +99,7 @@ const BookingDetailModal = ({ open, onClose, booking, bookingDetails,onEdit }) =
                             <ImageList cols={1} sx={{ width: '100%', height: 200 }}>
                                 <ImageListItem>
                                     <img
-                                        src={`http://localhost:5000/uploads/payment_proofs/${bookingDetails.payment_proof}`}
+                                        src={`https://be.booking-servis-motor.biz.id/uploads/payment_proofs/${bookingDetails.payment_proof}`}
                                         alt="Bukti"
                                         loading="lazy"
                                         style={{ objectFit: 'contain', width: '100%', height: '100%' }}

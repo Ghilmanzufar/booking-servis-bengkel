@@ -11,7 +11,7 @@ const ServiceList = () => {
     useEffect(() => {
         const fetchServices = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/api/services");
+                const response = await axios.get("https://be.booking-servis-motor.biz.id/api/services");
                 // Ambil hanya 3 layanan pertama
                 setServices(response.data.slice(0, 3));
                 setLoading(false);

@@ -22,7 +22,7 @@ const DataMotorPengguna = () => {
         const fetchMotorcycles = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await axios.get('http://localhost:5000/api/motorcycles', {
+                const response = await axios.get('https://be.booking-servis-motor.biz.id/api/motorcycles', {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -61,14 +61,14 @@ const DataMotorPengguna = () => {
             };
 
             if (editingId) {
-                await axios.put(`http://localhost:5000/api/motorcycles/${editingId}`, data, {
+                await axios.put(`https://be.booking-servis-motor.biz.id/api/motorcycles/${editingId}`, data, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 });
                 toast.success('Data motor berhasil diperbarui');
             } else {
-                await axios.post('http://localhost:5000/api/motorcycles', data, {
+                await axios.post('https://be.booking-servis-motor.biz.id/api/motorcycles', data, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -77,7 +77,7 @@ const DataMotorPengguna = () => {
             }
 
             // Refresh data
-            const response = await axios.get('http://localhost:5000/api/motorcycles', {
+            const response = await axios.get('https://be.booking-servis-motor.biz.id/api/motorcycles', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -118,14 +118,14 @@ const DataMotorPengguna = () => {
     const handleDelete = async () => {
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`http://localhost:5000/api/motorcycles/${motorToDelete.id}`, {
+            await axios.delete(`https://be.booking-servis-motor.biz.id/api/motorcycles/${motorToDelete.id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
 
             // Refresh data
-            const response = await axios.get('http://localhost:5000/api/motorcycles', {
+            const response = await axios.get('https://be.booking-servis-motor.biz.id/api/motorcycles', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

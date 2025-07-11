@@ -20,7 +20,7 @@ const ServiceProductModal = ({ open, onClose, service }) => {
 
     const confirmDelete = async () => {
         try {
-            const res = await fetch(`http://localhost:5000/api/admin/products/${deleteTarget.id}`, {
+            const res = await fetch(`https://be.booking-servis-motor.biz.id/api/admin/products/${deleteTarget.id}`, {
             method: 'DELETE',
             headers: { Authorization: `Bearer ${token}` }
             });
@@ -39,7 +39,7 @@ const ServiceProductModal = ({ open, onClose, service }) => {
     const fetchProducts = async () => {
         if (!service?.id) return;
         try {
-        const res = await fetch(`http://localhost:5000/api/admin/services/${service.id}/products`, {
+        const res = await fetch(`https://be.booking-servis-motor.biz.id/api/admin/services/${service.id}/products`, {
             headers: { Authorization: `Bearer ${token}` }
         });
         const data = await res.json();
@@ -95,7 +95,7 @@ const ServiceProductModal = ({ open, onClose, service }) => {
                     <TableCell>
                         {p.image_url ? (
                         <img
-                            src={`http://localhost:5000/images/products/${p.image_url}`}
+                            src={`https://be.booking-servis-motor.biz.id/images/products/${p.image_url}`}
                             alt={p.name}
                             style={{ width: 60, height: 40, objectFit: 'cover', borderRadius: 4 }}
                         />

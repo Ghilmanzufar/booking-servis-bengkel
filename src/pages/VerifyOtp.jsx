@@ -16,7 +16,7 @@ const VerifyOtp = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-        const res = await axios.post('http://localhost:5000/api/otp/verify-otp', { phone, otp });
+        const res = await axios.post('https://be.booking-servis-motor.biz.id/api/otp/verify-otp', { phone, otp });
         toast.success(res.data.message || 'OTP terverifikasi');
         navigate('/reset-password', { state: { token: res.data.token } });
         } catch (err) {

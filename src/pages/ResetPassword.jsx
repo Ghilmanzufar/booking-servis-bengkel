@@ -23,7 +23,7 @@ const ResetPassword = () => {
         }
 
         try {
-        await axios.post('http://localhost:5000/api/otp/reset-password', { token, password });
+        await axios.post('https://be.booking-servis-motor.biz.id/api/otp/reset-password', { token, password });
         toast.success('Password berhasil diubah');
         navigate('/login');
         } catch (err) {

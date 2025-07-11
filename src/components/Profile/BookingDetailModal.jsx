@@ -175,7 +175,7 @@ const BookingDetailModal = ({
                                         <p className="text-sm font-medium text-gray-500">Bukti Pembayaran</p>
                                         <div className="mt-2">
                                             <img 
-                                                src={`http://localhost:5000/uploads/payment_proofs/${booking.payment_proof}`}
+                                                src={`https://be.booking-servis-motor.biz.id/uploads/payment_proofs/${booking.payment_proof}`}
                                                 alt="Bukti Pembayaran"
                                                 className="max-w-full h-auto rounded border border-gray-200"
                                             />

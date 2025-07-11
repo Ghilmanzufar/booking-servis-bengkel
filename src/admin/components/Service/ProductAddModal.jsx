@@ -34,7 +34,7 @@ const ProductAddModal = ({ open, onClose, serviceId, token, onSuccess }) => {
         }
 
         try {
-        const res = await fetch(`http://localhost:5000/api/admin/services/${serviceId}/products`, {
+        const res = await fetch(`https://be.booking-servis-motor.biz.id/api/admin/services/${serviceId}/products`, {
             method: 'POST',
             headers: {
             Authorization: `Bearer ${token}`

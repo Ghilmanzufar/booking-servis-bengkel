@@ -41,7 +41,7 @@ const BookingFormSection = ({ motorcycles, initialServiceId }) => {
         const fetchData = async () => {
             try {
                 const [servicesRes] = await Promise.all([
-                    axios.get('http://localhost:5000/api/services')
+                    axios.get('https://be.booking-servis-motor.biz.id/api/services')
                 ]);
                 
                 setServices(servicesRes.data);
@@ -61,7 +61,7 @@ const BookingFormSection = ({ motorcycles, initialServiceId }) => {
         if (formData.service_id) {
             const fetchProducts = async () => {
                 try {
-                    const res = await axios.get(`http://localhost:5000/api/services/${formData.service_id}/products`);
+                    const res = await axios.get(`https://be.booking-servis-motor.biz.id/api/services/${formData.service_id}/products`);
                     setServiceProducts(res.data);
                     
                     const service = services.find(s => s.id.toString() === formData.service_id);
@@ -86,7 +86,7 @@ const BookingFormSection = ({ motorcycles, initialServiceId }) => {
                 try {
                     const token = localStorage.getItem('token');
                     const response = await axios.get(
-                        `http://localhost:5000/api/bookings/availability?date=${formData.tanggal}`,
+                        `https://be.booking-servis-motor.biz.id/api/bookings/availability?date=${formData.tanggal}`,
                         {
                             headers: {
                                 Authorization: `Bearer ${token}`
@@ -218,7 +218,7 @@ const BookingFormSection = ({ motorcycles, initialServiceId }) => {
                 formDataToSend.append('payment_proof', paymentProof);
             }
 
-            await axios.post('http://localhost:5000/api/bookings', formDataToSend, {
+            await axios.post('https://be.booking-servis-motor.biz.id/api/bookings', formDataToSend, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data'

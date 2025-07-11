@@ -24,7 +24,7 @@ export default function Navbar() {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-        axios.get('http://localhost:5000/api/auth/profile', {
+        axios.get('https://be.booking-servis-motor.biz.id/api/auth/profile', {
             headers: { Authorization: `Bearer ${token}` }
         }).then(res => {
             setIsLoggedIn(true);
@@ -102,7 +102,7 @@ export default function Navbar() {
                                         <span className="sr-only">Open user menu</span>
                                         <img
                                             className="h-8 w-8 rounded-full"
-                                            src={userData?.avatar ? `http://localhost:5000${userData.avatar}` : userImg}
+                                            src={userData?.avatar ? `https://be.booking-servis-motor.biz.id${userData.avatar}` : userImg}
                                             alt="User profile"
                                         />
                                     </MenuButton>

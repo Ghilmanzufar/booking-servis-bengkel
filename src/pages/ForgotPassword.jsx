@@ -14,7 +14,7 @@ const ForgotPassword = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:5000/api/otp/request-otp', { phone });
+            await axios.post('https://be.booking-servis-motor.biz.id/api/otp/request-otp', { phone });
             toast.success('Kode OTP telah dikirim');
             navigate('/verify-otp', { state: { phone } });
         } catch (err) {

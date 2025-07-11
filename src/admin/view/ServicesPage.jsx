@@ -32,7 +32,7 @@ export default function ServicesPage() {
   const fetchServices = async () => {
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/admin/services', {
+      const res = await fetch('https://be.booking-servis-motor.biz.id/api/admin/services', {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
@@ -96,7 +96,7 @@ export default function ServicesPage() {
   const handleDeleteConfirm = async () => {
     if (!currentService?.id) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/services/${currentService.id}`, {
+      const res = await fetch(`https://be.booking-servis-motor.biz.id/api/admin/services/${currentService.id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`
@@ -138,8 +138,8 @@ export default function ServicesPage() {
       };
 
       const url = currentService
-        ? `http://localhost:5000/api/admin/services/${currentService.id}`
-        : `http://localhost:5000/api/admin/services`;
+        ? `https://be.booking-servis-motor.biz.id/api/admin/services/${currentService.id}`
+        : `https://be.booking-servis-motor.biz.id/api/admin/services`;
 
       const method = currentService ? 'PUT' : 'POST';
 

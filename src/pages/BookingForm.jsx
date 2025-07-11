@@ -16,7 +16,7 @@ const BookingForm = () => {
         const fetchMotorcycles = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await axios.get('http://localhost:5000/api/motorcycles', {
+                const response = await axios.get('https://be.booking-servis-motor.biz.id/api/motorcycles', {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }

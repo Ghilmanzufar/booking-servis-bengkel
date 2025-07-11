@@ -57,7 +57,7 @@ const RegisterForm = () => {
 
         const { name, phone, email, password } = formData;
         try {
-            const res = await axios.post('http://localhost:5000/api/users/register', {
+            const res = await axios.post('https://be.booking-servis-motor.biz.id/api/users/register', {
                 name, phone, email, password
             });
             toast.success(res.data.message || "Register berhasil!");

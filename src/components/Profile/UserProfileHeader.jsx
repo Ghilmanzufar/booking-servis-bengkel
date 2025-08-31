@@ -5,8 +5,6 @@ import EditProfileModal from './EditProfileModal';
 
 const UserProfileHeader = ({ user, onUpdated }) => {
     const [editOpen, setEditOpen] = useState(false);
-
-
     return (
         <div className="flex items-center justify-between p-6 bg-white rounded-lg mx-10">
         <div className="flex items-center gap-4">

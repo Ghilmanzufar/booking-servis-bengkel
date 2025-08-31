@@ -25,7 +25,6 @@ const LoginForm = () => {
         try {
             const res = await axios.post('https://be.booking-servis-motor.biz.id/api/auth/login', formData);
             toast.success(res.data.message || 'Login berhasil!');
-            localStorage.setItem('token', res.data.token);
             localStorage.setItem('user', JSON.stringify(res.data.user));
             login(res.data.token, res.data.user);
             

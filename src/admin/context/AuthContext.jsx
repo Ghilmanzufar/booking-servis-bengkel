@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import jwtDecode from 'jwt-decode';
 
 const AuthContext = createContext({
     token: null,
@@ -9,25 +8,12 @@ const AuthContext = createContext({
     logout: () => {}
 });
 
-// Fungsi cek apakah token sudah expired
-const isTokenExpired = (token) => {
-    try {
-        const decoded = jwtDecode(token);
-        return decoded.exp * 1000 < Date.now(); // convert to ms
-    } catch (err) {
-        return true;
-    }
-};
+
 
 export const AuthProvider = ({ children }) => {
-    const rawToken = localStorage.getItem('token');
-    const rawUser = localStorage.getItem('user');
-
-    const validToken = rawToken && !isTokenExpired(rawToken) ? rawToken : null;
-
     const [authState, setAuthState] = useState({
-        token: validToken,
-        user: validToken ? JSON.parse(rawUser) : null
+        token: localStorage.getItem('token') || null,
+        user: JSON.parse(localStorage.getItem('user')) || null,
     });
 
     const login = (token, user) => {

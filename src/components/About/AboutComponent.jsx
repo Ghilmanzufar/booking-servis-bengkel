@@ -10,7 +10,6 @@ const ContactLocation = () => {
                 Kami siap membantu anda. Temukan kami dengan mudah!
             </p>
             </div>
-
             <div className="flex flex-col md:flex-row gap-8">
             {/* Peta Google Maps */}
             <div className="w-full md:w-1/2 h-80 shadow-lg rounded-lg overflow-hidden">

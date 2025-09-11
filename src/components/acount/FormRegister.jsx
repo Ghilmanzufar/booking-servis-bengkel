@@ -76,14 +76,14 @@ const RegisterForm = () => {
 
     return (
         <div className="flex flex-col items-center justify-center lg:py-0 backdrop-blur-sm">
-        <div className="w-full my-10 rounded-lg shadow sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border dark:border-gray-700">
+        <div className="w-full my-10 rounded-lg shadow sm:max-w-md xl:p-0 bg-gray-800 border border-gray-700">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+            <h1 className="text-xl font-bold leading-tight tracking-tight text-white md:text-2xl ">
                 Register akun
             </h1>
             <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
                 <div>
-                <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label htmlFor="name" className="block mb-2 text-sm font-medium text-white ">
                     Full Nama
                 </label>
                 <input
@@ -95,12 +95,12 @@ const RegisterForm = () => {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                    className="bg-gray-50 border border-gray-300 text-white text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 "
                 />
                 </div>
 
                 <div>
-                <label htmlFor="phone" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label htmlFor="phone" className="block mb-2 text-sm font-medium text-white ">
                     Nomer telepon *whatsapp
                 </label>
                 <input
@@ -111,12 +111,12 @@ const RegisterForm = () => {
                     required
                     value={formData.phone}
                     onChange={handleChange}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                    className="bg-gray-50 border border-gray-300 text-white text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 "
                 />
                 </div>
 
                 <div>
-                <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label htmlFor="email" className="block mb-2 text-sm font-medium text-white ">
                     Email
                 </label>
                 <input
@@ -127,12 +127,12 @@ const RegisterForm = () => {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                    className="bg-gray-50 border border-gray-300 text-white text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 "
                 />
                 </div>
 
                 <div>
-                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label htmlFor="password" className="block mb-2 text-sm font-medium text-white ">
                     Password
                 </label>
                 <input
@@ -143,12 +143,12 @@ const RegisterForm = () => {
                     required
                     value={formData.password}
                     onChange={handleChange}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                    className="bg-gray-50 border border-gray-300 text-white text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 "
                 />
                 </div>
 
                 <div>
-                <label htmlFor="confirmPassword" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label htmlFor="confirmPassword" className="block mb-2 text-sm font-medium text-white ">
                     Konfirmasi password
                 </label>
                 <input
@@ -159,7 +159,7 @@ const RegisterForm = () => {
                     required
                     value={formData.confirmPassword}
                     onChange={handleChange}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                    className="bg-gray-50 border border-gray-300 text-white text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 "
                 />
                 </div>
 

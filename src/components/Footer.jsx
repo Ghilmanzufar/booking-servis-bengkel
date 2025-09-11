@@ -2,11 +2,11 @@ import React from 'react';
 
 const Footer = () => {
     return (
-        <footer className="bg-white shadow-sm dark:bg-gray-900">
+        <footer className="shadow-sm bg-gray-900">
         <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
             <div className="sm:flex sm:items-center sm:justify-between">
             <a href="https://flowbite.com/" className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
-                <span className="self-center text-2xl ml-2 font-semibold whitespace-nowrap dark:text-white">Bengkel Ghilman</span>
+                <span className="self-center text-2xl ml-2 font-semibold whitespace-nowrap text-white">Bengkel Ghilman</span>
             </a>
             <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
                 <li>

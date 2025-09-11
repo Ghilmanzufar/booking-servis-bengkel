@@ -187,6 +187,12 @@ const RiwayatBookingTable = () => {
                                             <p className="text-sm text-gray-500">
                                                 Apakah Anda yakin ingin membatalkan booking servis untuk motor {bookingToCancel.brand} {bookingToCancel.model} pada tanggal {new Date(bookingToCancel.booking_date).toLocaleDateString('id-ID')}?
                                             </p>
+                                            <p className="text-sm text-gray-500 mt-2">
+                                                Jika ingin ingin membatalkan booking, duit dikembalikan H+1 pembatalan.
+                                            </p>
+                                            <p className="text-sm text-gray-500 mt-2">
+                                                Untuk info lebih lanjut, silakan hubungi admin.
+                                            </p>
                                         </div>
                                     </div>
                                 </div>

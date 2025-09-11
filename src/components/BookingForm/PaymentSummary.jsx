@@ -21,12 +21,13 @@ const PaymentSummary = ({ selectedService, serviceProducts, formData, totalPayme
                     <div className="flex justify-between items-center mb-2">
                         <span className="text-gray-600">Produk Tambahan:</span>
                         <span className="font-medium">
-                            {serviceProducts.find(p => String(p.id) === String(formData.product_id)) 
-                                ? `Rp ${formatPrice(serviceProducts.find(p => String(p.id) === String(formData.product_id)).price)}`
-                                : '-'}
+                        {serviceProducts.find(p => String(p.id) === String(formData.product_id))
+                            ? `Rp ${formatPrice(serviceProducts.find(p => String(p.id) === String(formData.product_id)).price)} x ${formData.product_quantity}`
+                            : '-'}
                         </span>
                     </div>
                 )}
+
                 
                 <div className="border-t border-gray-200 mt-3 pt-3 flex justify-between items-center">
                     <span className="text-lg font-semibold">Total:</span>

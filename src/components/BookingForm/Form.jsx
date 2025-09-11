@@ -16,6 +16,7 @@ const BookingFormSection = ({ motorcycles, initialServiceId }) => {
     const [formData, setFormData] = useState({
         service_id: initialServiceId || '',
         product_id: '',
+        product_quantity: 1,
         tanggal: '',
         waktu: '',
         motorId: '',
@@ -109,23 +110,28 @@ const BookingFormSection = ({ motorcycles, initialServiceId }) => {
     // Calculate total payment
     useEffect(() => {
         let total = 0;
-        
+
+        // harga service
         if (formData.service_id) {
             const service = services.find(s => s.id.toString() === formData.service_id);
             if (service && !service.has_products) {
-                total += parseFloat(service.current_price) || 0;
+            total += parseFloat(service.current_price) || 0;
             }
         }
-        
+
+        // harga produk × jumlah
         if (formData.product_id) {
-            const product = serviceProducts.find(p => String(p.id) === String(formData.product_id));
+            const product = serviceProducts.find(
+            p => String(p.id) === String(formData.product_id)
+            );
             if (product) {
-                total += parseFloat(product.price) || 0;
+            total += (parseFloat(product.price) || 0) * (formData.product_quantity || 1);
             }
         }
-        
+
         setTotalPayment(total);
-    }, [formData.service_id, formData.product_id, services, serviceProducts]);
+    }, [formData.service_id, formData.product_id, formData.product_quantity, services, serviceProducts]);
+
 
         // Tambahkan useEffect untuk menangani perubahan initialServiceId
     useEffect(() => {
@@ -151,10 +157,11 @@ const BookingFormSection = ({ motorcycles, initialServiceId }) => {
         }));
     };
 
-    const handleProductSelect = (productId) => {
+    const handleProductSelect = (productId, quantity = 1) => {
         setFormData(prev => ({
             ...prev,
-            product_id: productId
+            product_id: productId,
+            product_quantity: quantity
         }));
     };
 
@@ -203,16 +210,19 @@ const BookingFormSection = ({ motorcycles, initialServiceId }) => {
             formDataToSend.append('payment_method', paymentMethod);
 
             if (formData.product_id) {
-                const selectedProduct = serviceProducts.find(p => String(p.id) === String(formData.product_id));
+                const selectedProduct = serviceProducts.find(
+                    p => String(p.id) === String(formData.product_id)
+                );
                 if (selectedProduct) {
                     const productsData = [{
-                            id: selectedProduct.id,
-                            price: selectedProduct.price,
-                        quantity: 1
+                        id: selectedProduct.id,
+                        price: selectedProduct.price,
+                        quantity: formData.product_quantity || 1
                     }];
                     formDataToSend.append('products', JSON.stringify(productsData));
                 }
             }
+
 
             if (paymentProof) {
                 formDataToSend.append('payment_proof', paymentProof);
@@ -337,6 +347,18 @@ const BookingFormSection = ({ motorcycles, initialServiceId }) => {
                     />
 
                     <div>
+                        <div className="border-t pt-4">
+                            <h3 className="font-medium mb-2">Syarat & Ketentuan</h3>
+                            <ul className="list-disc list-inside text-sm text-gray-600 space-y-1 mb-4">
+                                <li>Booking hanya berlaku di hari & jam operasional (08:00–16:30, Senin–Sabtu).</li>
+                                <li>Pembayaran via transfer/QRIS wajib upload bukti pembayaran.</li>
+                                <li>Pembatalan booking minimal 1 hari sebelum tanggal servis.</li>
+                                <li>Datang tepat waktu sesuai jadwal booking.</li>
+                                <li>Hubungi admin jika ada perubahan jadwal.</li>
+                                <li>Jika ingin ingin membatalkan booking, duit dikembalikan H+1 pembatalan.</li>
+                                <li>Biaya tambahan akan dikenakan apabila ada penambahan layanan di luar layanan yang di-booking.</li>
+                            </ul>
+                        </div>
                         <button
                             type="submit"
                             className={`w-full bg-blue-600 text-white font-semibold py-3 rounded-md hover:bg-blue-700 transition ${

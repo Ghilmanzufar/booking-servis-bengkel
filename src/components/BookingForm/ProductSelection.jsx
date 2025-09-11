@@ -49,6 +49,25 @@ const ProductSelection = ({ serviceProducts, formData, handleProductSelect, form
                     }
                 </p>
             )}
+            
+            {formData.product_id && (
+                <div className="mt-3">
+                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                        Jumlah Produk
+                    </label>
+                    <input
+                        type="number"
+                        name="product_quantity"
+                        min="1"
+                        value={formData.product_quantity}
+                        onChange={(e) =>
+                            handleProductSelect(formData.product_id, e.target.value)
+                    }
+                    className="w-24 border border-gray-300 rounded-md px-2 py-1"
+                    />
+                </div>
+            )}
+
         </div>
     );
 };
